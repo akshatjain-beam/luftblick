@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    container_name: luftblick_app
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./calibration_files:/home/app/calibration_files
+    environment:
+      - FLASK_ENV=development

@@ -1,0 +1,27 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
+
+# Docker
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Log files
+*.log
+
+# Calibration files
+calibration_files/*
+
+# Other
+*.sqlite3
