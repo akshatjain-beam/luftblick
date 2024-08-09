@@ -21,7 +21,7 @@ venv/
 *.log
 
 # Calibration files
-calibration_files/*
+# calibration_files/*
 
 # Other
 *.sqlite3
