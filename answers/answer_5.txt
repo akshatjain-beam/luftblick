@@ -1,0 +1,109 @@
+Question - Outline your ideas on how to use this package to account when new CFs are uploaded to the CF folder, and overview pros and cons.
+
+Answer -
+Overview
+
+The provided code processes calibration files from a specified directory, storing their data in a database while handling errors and duplicates. It checks for existing files to avoid reprocessing and logs any encountered errors.
+
+Code
+
+```python
+@app.route("/api/process_files", methods=["POST"])
+def process_files():
+    """
+    Process calibration files in the specified directory and store their data in the database.
+
+    Returns:
+        tuple: A tuple containing a JSON response and HTTP status code.
+    """
+    directory = "./calibration_files"
+    added, skipped, errors = 0, 0, 0
+    error_messages = []
+
+    try:
+        # Check if the directory exists
+        if not os.path.exists(directory):
+            raise FileNotFoundError(f"Directory {directory} does not exist")
+
+        # Iterate through files in the directory
+        for filename in os.listdir(directory):
+            if not filename.endswith(".txt"):
+                continue
+
+            try:
+                # Parse filename and extract details
+                parsed = parse_filename(filename)
+                if not parsed:
+                    continue
+
+                pandora_id, spectrometer_id, version, validity_date = parsed
+                file_path = os.path.join(directory, filename)
+
+                # Read file content
+                with open(file_path, "r") as file:
+                    content = file.read()
+
+                file_details = extract_file_details(content)
+
+                # Check if file already exists in database
+                existing_entry = CalibrationData.query.filter_by(
+                    filename=filename
+                ).first()
+
+                if existing_entry:
+                    skipped += 1
+                else:
+                    # Create new database entry
+                    new_data = CalibrationData(
+                        filename=filename,
+                        pandora_id=pandora_id,
+                        spectrometer_id=spectrometer_id,
+                        version=int(version),
+                        validity_date=validity_date,
+                    )
+                    new_data.set_content(file_details)
+                    db.session.add(new_data)
+                    added += 1
+
+            except Exception as e:
+                errors += 1
+                error_messages.append(f"Error processing file {filename}: {str(e)}")
+                continue
+
+        # Commit changes to database
+        db.session.commit()
+        return (
+            jsonify(
+                {
+                    "added": added,
+                    "skipped": skipped,
+                    "errors": errors,
+                    "error_messages": error_messages,
+                }
+            ),
+            200,
+        )
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({"error": "Database error occurred", "details": str(e)}), 500
+
+    except Exception as e:
+        db.session.rollback()
+        return (
+            jsonify({"error": "An unexpected error occurred", "details": str(e)}),
+            500,
+        )
+```
+
+Pros
+
+- Automation: Efficiently processes files with minimal manual intervention.
+- Error Handling: Captures and logs errors, aiding in troubleshooting.
+- Data Integrity: Prevents duplicate entries by checking existing database records.
+- Scalability: Can handle multiple files in batch processing.
+
+Cons
+
+- Dependency on File Naming: Relies on correct file names for parsing, which may lead to errors if not followed.
+- No Real-Time Monitoring: Does not automatically detect new files; requires manual triggering.

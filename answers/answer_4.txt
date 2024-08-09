@@ -1,0 +1,69 @@
+Question - Outline your ideas and concepts how to implement a query via URL to make the content easily and quickly accessible, and overview pros and cons.
+
+Answer -
+To implement a query via URL for easy and quick content access, you can adjust your existing setup to use a GET request with query parameters. Here's a detailed approach:
+
+Implementation Details
+
+1. GET Request:
+   - Modify the Flask route to accept GET requests.
+   - Use query parameters to specify the keys you want to filter.
+
+2. Accessing Query Parameters:
+   - Extract a list of keys from the json body of request.
+
+3. Database Query:
+   - Retrieve all relevant database records.
+   - Iterate through the records and filter content based on the provided keys.
+   - Construct a response that includes matched content for each record.
+
+Code
+
+```python
+@app.route("/api/query", methods=["GET"])
+def query_calibration_data():
+    """
+    Query calibration data based on provided keys.
+
+    Returns:
+        tuple: A tuple containing a JSON response and HTTP status code.
+    """
+    try:
+        keys = request.json
+        if not keys or not isinstance(keys, list):
+            abort(400, description="Invalid or missing keys in request body")
+
+        query = CalibrationData.query
+        results = query.all()
+
+        response = []
+        for row in results:
+            content = row.get_content()
+            matched_content = {key: content.get(key) for key in keys if key in content}
+            if matched_content:
+                response.append(
+                    {"filename": row.filename, "matched_content": matched_content}
+                )
+
+        return jsonify(response), 200
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({"error": "Database error", "details": str(e)}), 500
+    except Exception as e:
+        return (
+            jsonify({"error": "An unexpected error occurred", "details": str(e)}),
+            500,
+        )
+```
+
+Pros
+
+- URL Accessibility: Users can directly enter the query in the URL bar of a browser or use it in scripts.
+- Caching: GET requests can be cached by browsers and proxies, reducing load times and server load.
+- Statelessness: Each request contains all the necessary information, enhancing scalability.
+
+Cons
+
+- Security Risks: Sensitive information should not be included in URLs as they can be logged or cached.
+- Encoding Required: Special characters in keys need to be URL-encoded, which can be cumbersome.

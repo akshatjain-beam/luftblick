@@ -159,7 +159,7 @@ def process_files():
         )
 
 
-@app.route("/api/query", methods=["POST"])
+@app.route("/api/query", methods=["GET"])
 def query_calibration_data():
     """
     Query calibration data based on provided keys.

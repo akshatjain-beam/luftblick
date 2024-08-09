@@ -96,7 +96,7 @@ The application will be accessible at `http://localhost:5001`.
 
 2. **Query Calibration Data**
    - URL: `/api/query`
-   - Method: POST
+   - Method: GET
    - Description: Queries calibration data based on provided keys.
 
 3. **Health Check**

@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "84ab771a-1917-437c-bba7-343956d96390",
+		"name": "LuftBlick",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13031965"
+	},
+	"item": [
+		{
+			"name": "Get File Details with keys",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    \"Instrument type\",\n    // \"Calibration session number\",\n    \"Dark fine structure slope, parameter A [1e-4*counts/ms]\"\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5001/api/query",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5001/api/health",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get File Content",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5001/api/get_content?filename=Pandora101s1_CF_v12d20230620.txt",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"get_content"
+					],
+					"query": [
+						{
+							"key": "filename",
+							"value": "Pandora101s1_CF_v12d20230620.txt"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load the files in DB",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5001/api/process_files",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"process_files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Calibration file names",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5001/api/calibration_files",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"calibration_files"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
