@@ -43,8 +43,8 @@ This repository contains a Flask-based web application for managing calibration 
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-repo/pandora-calibration-system.git
-   cd pandora-calibration-system
+   git clone https://github.com/akshatjain-beam/luftblick.git
+   cd luftblick
    ```
 
 2. Build and Run the Docker image:
@@ -58,8 +58,8 @@ The application will be accessible at `http://localhost:5001`.
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-repo/pandora-calibration-system.git
-   cd pandora-calibration-system
+   git clone https://github.com/akshatjain-beam/luftblick.git
+   cd luftblick
    ```
 
 2. Create a virtual environment and activate it:
