@@ -12,6 +12,10 @@ This repository contains a Flask-based web application for managing calibration 
 - Health check endpoint
 - List all calibration files in the system
 
+## Postman API Collection
+
+- File Name - `LuftBlick.postman_collection.json`
+
 ## Tech Stack
 
 - Python 3.11
@@ -114,3 +118,41 @@ The application will be accessible at `http://localhost:5001`.
    - URL: `/api/calibration_files`
    - Method: GET
    - Description: Lists all calibration files in the system.
+
+----
+
+## Importing a JSON File into Postman
+
+This guide will help you import a JSON file into Postman, enabling you to load collections, environments, or data files.
+
+## Prerequisites
+
+- Ensure you have [Postman](https://www.postman.com/downloads/) installed on your computer.
+
+## Steps
+
+1. **Open Postman**
+
+   Launch the Postman application on your computer.
+
+2. **Go to the Import Page**
+
+   - Click on the `Import` button located at the top left corner of the Postman interface.
+   - Alternatively, you can use the shortcut `Ctrl + O` (Windows/Linux) or `Cmd + O` (Mac) to open the import dialog.
+
+3. **Select Import Method**
+
+   - In the import dialog, choose the `File` tab.
+
+4. **Upload Your JSON File**
+
+   - Drag and drop your JSON file into the import window, or click `Choose Files` to browse and select the file from your computer.
+   - In our case, the file is present at `LuftBlick.postman_collection.json` in `luftblick` folder.
+
+5. **Import the File**
+
+   - Once your file is selected, click the `Import` button to start the import process.
+
+6. **Verify Import**
+
+   - After importing, check the `Collections` tab (or `Environments`, if applicable) to ensure your data has been correctly loaded.
